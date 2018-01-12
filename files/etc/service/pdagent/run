@@ -1,0 +1,3 @@
+#!/bin/bash
+[ -e /etc/default/docker-envs ] && source /etc/default/docker-envs
+exec chpst -u pdagent /usr/share/pdagent/bin/pdagentd.py -f

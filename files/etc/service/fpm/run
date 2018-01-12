@@ -1,0 +1,4 @@
+#!/bin/bash
+[ -e /etc/default/docker-envs ] && source /etc/default/docker-envs
+[ -d /run/php ] || mkdir -p /run/php
+exec /usr/sbin/php-fpm7.0 --nodaemonize --fpm-config /etc/php/7.0/fpm/php-fpm.conf

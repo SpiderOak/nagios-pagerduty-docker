@@ -1,0 +1,4 @@
+#!/bin/bash
+[ -e /etc/default/docker-envs ] && source /etc/default/docker-envs
+[ -e /etc/default/nginx ] && source /etc/default/nginx
+exec /usr/sbin/nginx -g "daemon off;"
