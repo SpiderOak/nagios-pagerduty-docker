@@ -33,6 +33,9 @@ RUN apt-get update && \
     php-gd \
     libgd-dev \
     libssl-dev \
+    libwww-perl \
+    libjson-perl \
+    libcgi-pm-perl \
     unzip && \
     useradd nagios && \
     usermod -aG nagios www-data && \
@@ -78,6 +81,13 @@ RUN apt-get update && \
     cp src/check_nrpe /opt/nagios/libexec/ && \
     cd $WORKDIR && \
     rm -rf /tmp/nrpe && \
+    curl -sLo /opt/nagios/etc/objects/pagerduty.cfg https://raw.githubusercontent.com/PagerDuty/pdagent-integrations/master/pagerduty_nagios.cfg && \
+    chown nagios:nagios /opt/nagios/etc/objects/pagerduty.cfg && \
+    chmod 664 /opt/nagios/etc/objects/pagerduty.cfg && \
+    curl -sL https://raw.githubusercontent.com/mdcollins05/pd-nag-connector/master/pagerduty.cgi | \
+    sed "s|^\(\s\+'command_file' => \)'[^']\+'|\1'"`awk -F= '/command_file/ { print $2 }' /opt/nagios/etc/nagios.cfg`"'|" > /opt/nagios/sbin/pagerduty.cgi && \
+    chown nagios:nagios /opt/nagios/sbin/pagerduty.cgi && \
+    chmod 775 /opt/nagios/sbin/pagerduty.cgi && \
     apt-get purge --autoremove -y \
     build-essential \
     git && \
