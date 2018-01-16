@@ -1,0 +1,20 @@
+# A Nagios Docker Container with PagerDuty
+
+## Environment Variables
+
+`PAGERDUTY_INTEGRATION_KEY` To enable PagerDuty integration, set this to your
+Integration Key value.
+
+`NAGIOS_BASE_URL` The base URL to access Nagios at. Default: `/nagios/`
+
+## Volumes and Configuration
+
+You can configure Nagios by mounting a directory containing `nagios.cfg` to
+`/opt/nagios/etc`. Note that if you set the `PAGERDUTY_INTEGRATION_KEY`
+environment variable, the entrypoint script will attempt to substitute that
+value into a file at `/opt/nagios/etc/objects/pagerduty.cfg` (And also modify
+a couple other files. See `files/entrypoint.sh` for details.)
+
+You can also configure nginx by mounting to things under `/etc/nagios`. Note
+that setting the `NAGIOS_BASE_URL` environment variable will cause the
+entrypoint script to write to `/etc/nagios/conf.d/nagios.conf` if it exists.

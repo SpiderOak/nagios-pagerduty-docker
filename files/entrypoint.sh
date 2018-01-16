@@ -1,6 +1,14 @@
 #!/bin/bash
 
+set -x
+
+export NAGIOS_BASE_URL=`sed s./*$./. <<<${NAGIOS_BASE_URL:-/nagios/}`
 export > /etc/default/docker-envs
+
+if [ -f /etc/nginx/conf.d/nagios.conf ]; then
+    sed -i "s|{{NAGIOS_BASE_URL}}|$NAGIOS_BASE_URL|g" /etc/nginx/conf.d/nagios.conf
+fi
+
 if [ "$PAGERDUTY_INTEGRATION_KEY" ]; then
     sed -i "s/YOUR-SERVICE-KEY-HERE/$PAGERDUTY_INTEGRATION_KEY/" /opt/nagios/etc/objects/pagerduty.cfg
     sed -i 's/members\s\+nagiosadmin/&,pagerduty/' /opt/nagios/etc/objects/contacts.cfg
