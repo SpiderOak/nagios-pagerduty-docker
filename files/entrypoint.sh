@@ -15,6 +15,16 @@ if [ "$PAGERDUTY_INTEGRATION_KEY" ]; then
     sed -i '/cfg_file=.\+contacts/ i cfg_file=/opt/nagios/etc/objects/pagerduty.cfg' /opt/nagios/etc/nagios.cfg
 fi
 
+if [ "$NAGIOSADMIN_PASSWORD" ]; then
+    echo "nagiosadmin:$(openssl passwd -crypt "$NAGIOSADMIN_PASSWORD")" > /etc/nginx/nagios.htpasswd
+    sed -i 's/#auth_basic/auth_basic/' /etc/nginx/conf.d/nagios.conf
+fi
+
+if [ "$PROXY_ALLOW_REMOTE_USER" ]; then
+    sed -i 's/$remote_user/$http_remote_user/' /etc/nginx/conf.d/nagios.conf
+    echo 'underscores_in_headers on;' > /etc/nginx/conf.d/underscores_in_headers.conf
+fi
+
 shutdown() {
     sv -w 60 force-stop /etc/service/*
     if [ -e "/proc/$RUNSVDIR" ]; then

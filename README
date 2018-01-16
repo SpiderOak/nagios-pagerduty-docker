@@ -7,6 +7,13 @@ Integration Key value.
 
 `NAGIOS_BASE_URL` The base URL to access Nagios at. Default: `/nagios/`
 
+`NAGIOSADMIN_PASSWORD` Set the password for the `nagiosadmin` user. This
+writes an `htpasswd` file and turns on HTTP basic auth.
+
+`PROXY_ALLOW_REMOTE_USER` Respect the `REMOTE_USER` header coming from an
+upstream proxy. DO NOT ENABLE THIS UNLESS BEHIND A REVERSE PROXY THAT PROPERLY
+SETS THIS HEADER.
+
 ## Volumes and Configuration
 
 You can configure Nagios by mounting a directory containing `nagios.cfg` to
