@@ -13,6 +13,7 @@ exec docker run \\
     -e LETSENCRYPT_DOMAINS=example.com \\
     -e NAGIOSADMIN_PASSWORD=superstrongpassword \\
     -v /etc/nagios:/opt/nagios/etc:ro \\
+    -v /var/lib/nagios:/opt/nagios/var \\
     -v /var/www/letsencrypt:/var/www/letsencrypt:ro \\
     -v /etc/letsencrypt:/etc/nginx/certs:ro \\
     -p 80:80 -p 443:443 \\
