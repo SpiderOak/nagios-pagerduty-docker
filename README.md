@@ -14,6 +14,10 @@ writes an `htpasswd` file and turns on HTTP basic auth.
 upstream proxy. DO NOT ENABLE THIS UNLESS BEHIND A REVERSE PROXY THAT PROPERLY
 SETS THIS HEADER.
 
+`NGINX_HTTP_PORT` Change the default port Nginx listens on.  Useful if you are
+using host networking and the default port 80 is already bound to another
+process.
+
 `LETSENCRYPT_DOMAINS` Space-separated list of domain names managed by
 Letsencrypt. When set, this changes the nginx config to serve Nagios on HTTPS
 rather than HTTP at the domains listed in the variable. The letsencrypt

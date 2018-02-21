@@ -35,6 +35,10 @@ if [ "$PROXY_ALLOW_REMOTE_USER" ]; then
     echo 'underscores_in_headers on;' > /etc/nginx/conf.d/underscores_in_headers.conf
 fi
 
+if [ "$NGINX_HTTP_PORT" ]; then
+    sed -i "s/\<80\>/$NGINX_HTTP_PORT/" /etc/nginx/conf.d/default-http.conf
+fi
+
 shutdown() {
     sv -w 60 force-stop /etc/service/*
     if [ -e "/proc/$RUNSVDIR" ]; then
