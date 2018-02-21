@@ -8,7 +8,7 @@ ENV NAGIOS_NSCA nsca-2.7.2.tar.gz
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    curl wget \
+    curl \
     apt-transport-https && \
     curl -sL https://packages.pagerduty.com/GPG-KEY-pagerduty | apt-key add - && \
     echo 'deb https://packages.pagerduty.com/pdagent deb/' > /etc/apt/sources.list.d/pdagent.list && \
@@ -98,7 +98,7 @@ RUN apt-get update && \
 # Install NSCA
 RUN mkdir -p /opt/nagios/nagios4-nsca
 RUN cd /opt/nagios/nagios4-nsca && \
-    wget http://prdownloads.sourceforge.net/sourceforge/nagios/$NAGIOS_NSCA -O- | tar -zxp --strip-components 1 && \
+    curl -v -L http://prdownloads.sourceforge.net/sourceforge/nagios/$NAGIOS_NSCA | tar -zxp --strip-components 1 && \
     ./configure \
     --with-nsca-user=nagios \
     --with-nsca-grp=nagios && \
