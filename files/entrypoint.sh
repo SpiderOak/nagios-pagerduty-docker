@@ -36,12 +36,7 @@ if [ "$PROXY_ALLOW_REMOTE_USER" ]; then
 fi
 
 if [ "$NGINX_HTTP_PORT" ]; then
-    valid_port=$(echo $NGINX_HTTP_PORT | grep "^-\?[0-9]*$")
-    if [[  $? -eq 0 && $valid_port -lt 65535 ]]; then
-        sed -i "s/\<80\>/$NGINX_HTTP_PORT/" /etc/nginx/conf.d/default-http.conf
-    else
-        echo "'$NGINX_HTTP_PORT' not a valid port, skipping"
-    fi
+    sed -i "s/\<listen 80\>/listen $NGINX_HTTP_PORT/" /etc/nginx/conf.d/default-http.conf
 fi
 
 shutdown() {
