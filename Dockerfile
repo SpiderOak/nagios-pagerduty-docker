@@ -38,6 +38,7 @@ RUN apt-get update && \
     libwww-perl \
     libjson-perl \
     libcgi-pm-perl \
+    libdbd-pg-perl \
     unzip && \
     useradd nagios && \
     usermod -aG nagios www-data && \
