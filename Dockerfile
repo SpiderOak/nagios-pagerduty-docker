@@ -97,14 +97,14 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install NSCA
-RUN mkdir -p /opt/nagios/nagios4-nsca
-RUN cd /opt/nagios/nagios4-nsca && \
+RUN mkdir -p /opt/nagios/nagios4-nsca && \
+    cd /opt/nagios/nagios4-nsca && \
     curl -v -L http://prdownloads.sourceforge.net/sourceforge/nagios/$NAGIOS_NSCA | tar -zxp --strip-components 1 && \
     ./configure \
     --with-nsca-user=nagios \
     --with-nsca-grp=nagios && \
-    make all
-RUN cd /opt/nagios/nagios4-nsca && \
+    make all && \
+    cd /opt/nagios/nagios4-nsca && \
     cp sample-config/nsca.cfg sample-config/send_nsca.cfg /opt/nagios/etc/ && \
     cp src/send_nsca src/nsca /opt/nagios/bin/
 
