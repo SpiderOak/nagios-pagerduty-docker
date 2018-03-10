@@ -16,7 +16,7 @@ SETS THIS HEADER.
 
 `NGINX_HTTP_PORT` Change the default port Nginx listens on.  Useful if you are
 using host networking and the default port 80 is already bound to another
-process.
+process.  This setting is ignored if the `LETSENCRYPT_DOMAINS` variable is used.
 
 `LETSENCRYPT_DOMAINS` Space-separated list of domain names managed by
 Letsencrypt. When set, this changes the nginx config to serve Nagios on HTTPS
