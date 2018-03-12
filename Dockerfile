@@ -4,6 +4,7 @@ MAINTAINER David Hain <dhain@spideroak-inc.com>
 ENV NAGIOS_BRANCH nagios-4.3.4
 ENV NAGIOS_PLUGINS_BRANCH release-2.2.1
 ENV NRPE_BRANCH nrpe-3.2.1
+ENV NAGIOS_NSCA nsca-2.7.2.tar.gz
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -27,6 +28,7 @@ RUN apt-get update && \
     build-essential \
     automake \
     autoconf \
+    mailutils \
     m4 \
     gettext \
     git \
@@ -36,6 +38,7 @@ RUN apt-get update && \
     libwww-perl \
     libjson-perl \
     libcgi-pm-perl \
+    libdbd-pg-perl \
     unzip && \
     useradd nagios && \
     usermod -aG nagios www-data && \
@@ -93,10 +96,24 @@ RUN apt-get update && \
     git && \
     rm -rf /var/lib/apt/lists/*
 
+# Install NSCA
+RUN mkdir -p /opt/nagios/nagios4-nsca && \
+    cd /opt/nagios/nagios4-nsca && \
+    curl -v -L http://prdownloads.sourceforge.net/sourceforge/nagios/$NAGIOS_NSCA | tar -zxp --strip-components 1 && \
+    ./configure \
+    --with-nsca-user=nagios \
+    --with-nsca-grp=nagios && \
+    make all && \
+    cd /opt/nagios/nagios4-nsca && \
+    cp sample-config/nsca.cfg sample-config/send_nsca.cfg /opt/nagios/etc/ && \
+    cp src/send_nsca src/nsca /opt/nagios/bin/
+
 ADD files /
 
 EXPOSE 80
 
 VOLUME "/opt/nagios/var" "/opt/nagios/etc" "/opt/nagios/libexec"
+
+WORKDIR /opt/nagios
 
 ENTRYPOINT ["/entrypoint.sh"]
