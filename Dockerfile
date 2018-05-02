@@ -24,6 +24,7 @@ RUN apt-get update && \
     nginx \
     runit \
     iputils-ping \
+    mtr \
     netcat \
     build-essential \
     automake \
@@ -39,6 +40,7 @@ RUN apt-get update && \
     libjson-perl \
     libcgi-pm-perl \
     libdbd-pg-perl \
+    libswitch-perl \
     unzip && \
     useradd nagios && \
     usermod -aG nagios www-data && \
