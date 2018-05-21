@@ -45,6 +45,7 @@ RUN apt-get update && \
     useradd nagios && \
     usermod -aG nagios www-data && \
     rm /etc/nginx/sites-*/default && \
+    setcap cap_net_raw+ep /usr/bin/mtr && \
     cd /tmp && \
     git clone https://github.com/NagiosEnterprises/nagioscore.git -b $NAGIOS_BRANCH && \
     cd nagioscore && \
